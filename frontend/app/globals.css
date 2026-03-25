@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  background: #0e0e0e;
+}
+
+body {
+  background: #0e0e0e;
+  color: #ffffff;
+  font-family: var(--font-inter), sans-serif;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.sse-pulse {
+  box-shadow: 0 0 15px rgba(58, 223, 250, 0.2);
+  border: 1px solid rgba(58, 223, 250, 0.4);
+}
+
+.marching-ants {
+  stroke-dasharray: 4;
+  animation: dash 1s linear infinite;
+}
+
+.glow-secondary {
+  filter: drop-shadow(0 0 4px #69f6b8);
+}
+
+.glow-primary {
+  filter: drop-shadow(0 0 4px #3adffa);
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #494847;
+}
+
+.react-flow__attribution {
+  display: none;
+}
+
+.react-flow__controls {
+  display: none;
+}

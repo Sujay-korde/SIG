@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SRE WHISPERER: AUTONOMOUS IT ENGINE</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#494847",
+              surface: "#0e0e0e",
+              "surface-variant": "#262626",
+              "surface-container": "#1a1919",
+              "surface-container-low": "#131313",
+              "surface-container-high": "#201f1f",
+              "surface-container-highest": "#262626",
+              "surface-container-lowest": "#000000",
+              "on-surface": "#ffffff",
+              primary: "#3adffa",
+              "primary-container": "#00cbe6",
+              secondary: "#69f6b8",
+              tertiary: "#ff716a"
+            },
+            fontFamily: {
+              headline: ["Space Grotesk"],
+              body: ["Inter"],
+              mono: ["JetBrains Mono"]
+            },
+            borderRadius: { DEFAULT: "0px", lg: "0px", xl: "0px", full: "9999px" }
+          }
+        }
+      };
+    </script>
+    <style>
+      .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+      .sse-pulse { box-shadow: 0 0 15px rgba(58, 223, 250, 0.2); border: 1px solid rgba(58, 223, 250, 0.4); }
+      .marching-ants { stroke-dasharray: 4; animation: dash 1s linear infinite; }
+      @keyframes dash { to { stroke-dashoffset: -8; } }
+      .glow-secondary { filter: drop-shadow(0 0 4px #69f6b8); }
+      .glow-primary { filter: drop-shadow(0 0 4px #3adffa); }
+      ::-webkit-scrollbar { width: 4px; height: 4px; }
+      ::-webkit-scrollbar-track { background: #000000; }
+      ::-webkit-scrollbar-thumb { background: #494847; }
+    </style>
+  </head>
+  <body class="bg-surface text-on-surface font-body overflow-hidden">
+    <header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#0e0e0e] shadow-[0_0_20px_rgba(58,223,250,0.06)]">
+      <div class="flex items-center gap-6">
+        <span class="text-xl font-bold text-cyan-400 tracking-tighter font-headline">SRE WHISPERER: AUTONOMOUS IT ENGINE</span>
+        <div class="hidden md:flex items-center gap-4 ml-8">
+          <div class="flex items-center gap-2 px-3 py-1 bg-secondary/10 border-b-2 border-secondary">
+            <span class="w-2 h-2 rounded-full bg-secondary glow-secondary"></span>
+            <span class="font-headline text-[10px] font-bold uppercase tracking-wider text-secondary">SYSTEM_HEALTH_STABLE</span>
+          </div>
+          <div class="flex items-center gap-2 px-3 py-1 sse-pulse bg-primary/5">
+            <span class="material-symbols-outlined text-primary text-sm">podcasts</span>
+            <span id="sse-status" class="font-headline text-[10px] font-bold uppercase tracking-wider text-primary">SSE_PREVIEW</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <button class="material-symbols-outlined text-zinc-500 hover:text-cyan-300 transition-colors">sensors</button>
+        <button class="material-symbols-outlined text-zinc-500 hover:text-cyan-300 transition-colors">memory</button>
+        <button class="material-symbols-outlined text-zinc-500 hover:text-cyan-300 transition-colors">account_tree</button>
+      </div>
+    </header>
+
+    <aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-[#1a1919] flex flex-col pt-4 z-40">
+      <div class="px-6 mb-6">
+        <h2 class="font-headline text-xs font-bold text-cyan-400 uppercase tracking-[0.2em]">AGENT REASONING</h2>
+        <p class="font-mono text-[10px] text-zinc-500">LOGIC_TRACE_ACTIVE</p>
+      </div>
+      <nav class="flex-1 space-y-1 overflow-y-auto px-2">
+        <a class="flex items-center gap-3 px-4 py-3 bg-[#262626] text-cyan-400 border-l-4 border-cyan-400 transition-all font-mono text-xs uppercase" href="#">
+          <span class="material-symbols-outlined text-sm">terminal</span>Logic Trace
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-zinc-500 hover:bg-[#201f1f] hover:text-cyan-200 transition-all font-mono text-xs uppercase" href="#">
+          <span class="material-symbols-outlined text-sm">hub</span>Neural Map
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-zinc-500 hover:bg-[#201f1f] hover:text-cyan-200 transition-all font-mono text-xs uppercase" href="#">
+          <span class="material-symbols-outlined text-sm">insights</span>Metric Streams
+        </a>
+      </nav>
+      <div class="p-4 bg-[#201f1f] mt-auto">
+        <button id="inject-f3" class="w-full bg-gradient-to-br from-primary to-primary-container text-[#004b56] font-headline font-bold text-[10px] py-3 uppercase tracking-widest hover:brightness-110 transition-all">
+          TRIGGER_HUMAN_GATE
+        </button>
+      </div>
+    </aside>
+
+    <main class="ml-64 mt-16 p-6 h-[calc(100vh-64px)] overflow-y-auto grid grid-cols-12 gap-6 pb-20">
+      <section class="col-span-12 lg:col-span-8 bg-surface-container h-[500px] relative overflow-hidden flex flex-col">
+        <div class="p-4 border-b border-outline-variant/10 flex justify-between items-center">
+          <h3 class="font-headline text-sm font-bold uppercase tracking-widest text-zinc-400">CAUSAL_DEPENDENCY_GRAPH</h3>
+          <span id="graph-meta" class="font-mono text-[10px] text-primary">PREVIEW_MODE</span>
+        </div>
+        <div class="flex-1 relative bg-surface-container-lowest">
+          <svg class="absolute inset-0 w-full h-full">
+            <defs>
+              <pattern height="30" id="grid" patternunits="userSpaceOnUse" width="30">
+                <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#262626" stroke-width="0.5"></path>
+              </pattern>
+            </defs>
+            <rect fill="url(#grid)" height="100%" width="100%"></rect>
+            <path class="marching-ants opacity-40" d="M 150 200 L 400 150" fill="none" stroke="#3adffa" stroke-width="2"></path>
+            <path class="marching-ants opacity-40" d="M 150 200 L 400 250" fill="none" stroke="#3adffa" stroke-width="2"></path>
+            <path class="marching-ants opacity-40" d="M 400 150 L 650 200" fill="none" stroke="#3adffa" stroke-width="2"></path>
+            <path class="marching-ants opacity-40" d="M 400 250 L 650 200" fill="none" stroke="#3adffa" stroke-width="2"></path>
+          </svg>
+          <div id="node-auth" class="absolute top-[180px] left-[100px] w-24 h-12 bg-surface-container-highest flex items-center justify-center glow-primary border-l-2 border-primary">
+            <span class="font-mono text-xs font-bold text-primary">AUTH_SVC</span>
+          </div>
+          <div id="node-redis" class="absolute top-[130px] left-[350px] w-24 h-12 bg-surface-container-highest flex items-center justify-center border-l-2 border-secondary">
+            <span class="font-mono text-xs font-bold text-secondary">REDIS_P1</span>
+          </div>
+          <div id="node-pay" class="absolute top-[230px] left-[350px] w-24 h-12 bg-surface-container-highest flex items-center justify-center border-l-2 border-tertiary animate-pulse">
+            <span class="font-mono text-xs font-bold text-tertiary">PAY_GW</span>
+          </div>
+          <div id="node-db" class="absolute top-[180px] left-[600px] w-24 h-12 bg-surface-container-highest flex items-center justify-center border-l-2 border-secondary">
+            <span class="font-mono text-xs font-bold text-secondary">POSTGRES</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="col-span-12 lg:col-span-4 bg-surface-container h-[500px] flex flex-col">
+        <div class="p-4 border-b border-outline-variant/10">
+          <h3 class="font-headline text-sm font-bold uppercase tracking-widest text-zinc-400">AGENT_LOGIC_FEED</h3>
+        </div>
+        <div id="logic-feed" class="flex-1 overflow-y-auto p-4 space-y-4 font-mono text-[11px]">
+          <div class="p-3 bg-surface-container-low border-l-2 border-primary">
+            <div class="flex justify-between mb-1">
+              <span class="text-primary">[BOOT] DASHBOARD_PREVIEW</span>
+              <span class="text-zinc-600">LIVE</span>
+            </div>
+            <p class="text-zinc-400 mb-2">TARGET: partial-demo</p>
+            <div class="bg-surface-container-highest p-2 text-zinc-300">Waiting for backend metrics. This preview can already show live metrics and the human approval gate.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div id="card-db" class="bg-surface-container p-4 transition-all duration-300"><div class="flex justify-between items-start mb-4"><div><h4 class="font-headline text-[10px] font-bold text-zinc-500 uppercase">DB_CONN_POOL</h4><div id="db_conn_pool" class="text-xl font-mono text-primary">42%</div></div><span class="material-symbols-outlined text-primary text-sm">database</span></div><div class="h-12 flex items-end gap-0.5"><div class="flex-1 bg-primary/20 h-[40%]"></div><div class="flex-1 bg-primary/20 h-[60%]"></div><div class="flex-1 bg-primary/20 h-[55%]"></div><div class="flex-1 bg-primary/20 h-[80%]"></div><div class="flex-1 bg-primary/20 h-[82%]"></div><div class="flex-1 bg-primary h-[85%]"></div></div></div>
+        <div id="card-auth" class="bg-surface-container p-4 transition-all duration-300"><div class="flex justify-between items-start mb-4"><div><h4 class="font-headline text-[10px] font-bold text-zinc-500 uppercase">AUTH_CPU_LOAD</h4><div id="auth_cpu" class="text-xl font-mono text-secondary">28%</div></div><span class="material-symbols-outlined text-secondary text-sm">memory</span></div><div class="h-12 flex items-end gap-0.5"><div class="flex-1 bg-secondary/20 h-[10%]"></div><div class="flex-1 bg-secondary/20 h-[12%]"></div><div class="flex-1 bg-secondary/20 h-[15%]"></div><div class="flex-1 bg-secondary/20 h-[18%]"></div><div class="flex-1 bg-secondary/20 h-[12%]"></div><div class="flex-1 bg-secondary h-[14%]"></div></div></div>
+        <div id="card-notif-cpu" class="bg-surface-container p-4 transition-all duration-300"><div class="flex justify-between items-start mb-4"><div><h4 class="font-headline text-[10px] font-bold text-zinc-500 uppercase">NOTIF_CPU</h4><div id="notif_cpu" class="text-xl font-mono text-tertiary">22%</div></div><span class="material-symbols-outlined text-tertiary text-sm">neurology</span></div><div class="h-12 flex items-end gap-0.5"><div class="flex-1 bg-tertiary/20 h-[20%]"></div><div class="flex-1 bg-tertiary/20 h-[28%]"></div><div class="flex-1 bg-tertiary/20 h-[32%]"></div><div class="flex-1 bg-tertiary/20 h-[45%]"></div><div class="flex-1 bg-tertiary/20 h-[60%]"></div><div class="flex-1 bg-tertiary h-[75%]"></div></div></div>
+        <div id="card-notif-queue" class="bg-surface-container p-4 transition-all duration-300"><div class="flex justify-between items-start mb-4"><div><h4 class="font-headline text-[10px] font-bold text-zinc-500 uppercase">NOTIF_QUEUE</h4><div id="notif_queue_depth" class="text-xl font-mono text-zinc-300">118</div></div><span class="material-symbols-outlined text-zinc-500 text-sm">stacks</span></div><div class="h-12 flex items-end gap-0.5"><div class="flex-1 bg-zinc-700 h-[16%]"></div><div class="flex-1 bg-zinc-700 h-[20%]"></div><div class="flex-1 bg-zinc-700 h-[24%]"></div><div class="flex-1 bg-zinc-700 h-[28%]"></div><div class="flex-1 bg-zinc-700 h-[35%]"></div><div class="flex-1 bg-zinc-500 h-[42%]"></div></div></div>
+      </section>
+    </main>
+
+    <div id="approval-modal" class="hidden fixed inset-0 bg-surface/80 backdrop-blur-md z-[100] items-center justify-center p-6">
+      <div class="w-full max-w-md bg-surface-container border-l-4 border-tertiary p-8 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-10 -top-10 opacity-10"><span class="material-symbols-outlined text-[120px] text-tertiary">warning</span></div>
+        <header class="mb-6">
+          <h2 class="font-headline text-xl font-bold uppercase tracking-tighter text-tertiary mb-1">Human Approval Required</h2>
+          <p class="font-mono text-[10px] text-zinc-500 uppercase">REQUEST_ID: AUTH_ROUTING_MOD_229</p>
+        </header>
+        <div class="space-y-4 mb-8">
+          <div class="bg-surface-container-lowest p-4 border border-outline-variant/10">
+            <p id="approval-copy" class="font-mono text-xs text-zinc-300">Awaiting backend approval request.</p>
+          </div>
+          <div class="flex items-center gap-4 text-[10px] font-bold uppercase font-headline">
+            <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span><span class="text-tertiary">WAITING_RESPONSE...</span></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <button class="bg-surface-container-highest text-zinc-300 font-headline font-bold text-xs py-4 uppercase tracking-widest hover:bg-zinc-800 transition-all">Deny Action</button>
+          <button id="approve-btn" class="bg-gradient-to-br from-primary to-primary-container text-[#004b56] font-headline font-bold text-xs py-4 uppercase tracking-widest hover:brightness-110 transition-all">Approve</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const apiBase = "http://localhost:8000";
+      const metricIds = ["db_conn_pool", "auth_cpu", "notif_cpu", "notif_queue_depth"];
+      const approvalModal = document.getElementById("approval-modal");
+      const approvalCopy = document.getElementById("approval-copy");
+      const logicFeed = document.getElementById("logic-feed");
+      const sseStatus = document.getElementById("sse-status");
+      const highlightedCards = ["card-notif-cpu", "card-notif-queue"];
+      let lastPendingKey = null;
+      let lastScenario = null;
+
+      function formatMetric(id, value) {
+        if (id.includes("latency")) return `${Math.round(value)}ms`;
+        if (id.includes("queue")) return value >= 1000 ? `${(value / 1000).toFixed(1)}k` : `${Math.round(value)}`;
+        return `${value}%`;
+      }
+
+      function setCardState(isIncidentActive) {
+        highlightedCards.forEach((id) => {
+          const element = document.getElementById(id);
+          if (!element) return;
+          element.classList.toggle("ring-1", isIncidentActive);
+          element.classList.toggle("ring-tertiary", isIncidentActive);
+          element.classList.toggle("shadow-[0_0_20px_rgba(255,113,106,0.12)]", isIncidentActive);
+        });
+        document.getElementById("node-pay").classList.toggle("animate-pulse", isIncidentActive);
+      }
+
+      function prependFeed(title, body, accent = "primary") {
+        const colors = {
+          primary: "border-primary text-primary",
+          secondary: "border-secondary text-secondary",
+          tertiary: "border-tertiary text-tertiary"
+        };
+        const entry = document.createElement("div");
+        entry.className = `p-3 bg-surface-container-low border-l-2 ${colors[accent]}`;
+        entry.innerHTML = `<div class="flex justify-between mb-1"><span>[EVENT] ${title}</span><span class="text-zinc-600">${new Date().toLocaleTimeString()}</span></div><p class="text-zinc-400 mb-2">TARGET: war-room</p><div class="bg-surface-container-highest p-2 text-zinc-300">${body}</div>`;
+        logicFeed.prepend(entry);
+      }
+
+      async function refresh() {
+        try {
+          const response = await fetch(`${apiBase}/metrics`);
+          const data = await response.json();
+          metricIds.forEach((id) => {
+            if (typeof data.metrics[id] !== "undefined") {
+              document.getElementById(id).textContent = formatMetric(id, data.metrics[id]);
+            }
+          });
+          document.getElementById("graph-meta").textContent = `SCENARIO: ${data.scenario || "HEALTHY"} | TICK: ${data.tick}`;
+          setCardState(Boolean(data.scenario === "F3"));
+
+          if (data.scenario !== lastScenario) {
+            lastScenario = data.scenario;
+            if (data.scenario === "F3") {
+              prependFeed("ANOMALY_DETECTED", "Notification CPU climbed from a healthy baseline to an anomalous state.", "tertiary");
+            }
+            if (data.scenario === null) {
+              prependFeed("RESET", "System returned to the healthy baseline state.", "secondary");
+            }
+          }
+
+          if (data.pending_approval && data.pending_approval.confidence < 0.8) {
+            approvalModal.classList.remove("hidden");
+            approvalModal.classList.add("flex");
+            approvalCopy.textContent = `${data.pending_approval.reasoning} Confidence ${(data.pending_approval.confidence * 100).toFixed(1)}% is below auto-execution threshold.`;
+            const pendingKey = `${data.pending_approval.root_cause}-${data.pending_approval.confidence}`;
+            if (pendingKey !== lastPendingKey) {
+              prependFeed("ESCALATION_REQ", `Root cause candidate ${data.pending_approval.root_cause} needs human approval.`, "tertiary");
+              lastPendingKey = pendingKey;
+            }
+          } else {
+            approvalModal.classList.add("hidden");
+            approvalModal.classList.remove("flex");
+            lastPendingKey = null;
+          }
+          sseStatus.textContent = "BACKEND_CONNECTED";
+        } catch (error) {
+          sseStatus.textContent = "BACKEND_OFFLINE";
+        }
+      }
+
+      document.getElementById("inject-f3").addEventListener("click", async () => {
+        await fetch(`${apiBase}/inject/F3`, { method: "POST" });
+        prependFeed("ESCALATION_REQ", "Triggered scenario F3 to show the human approval flow.", "tertiary");
+        refresh();
+      });
+
+      document.getElementById("approve-btn").addEventListener("click", async () => {
+        await fetch(`${apiBase}/approve`, { method: "POST" });
+        prependFeed("APPROVAL_GRANTED", "Operator approved the pending action.", "secondary");
+        refresh();
+      });
+
+      refresh();
+      setInterval(refresh, 3000);
+    </script>
+  </body>
+</html>
